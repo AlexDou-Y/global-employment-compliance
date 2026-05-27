@@ -1,0 +1,24 @@
+# 生成的手册（用户产物，不入库）
+*_用工合规手册_*.md
+*_draft.md
+*_对比评估报告_*.md
+
+# 操作系统
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# 编辑器
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# 临时文件
+*.tmp
+*.bak
+*.log
+
+# Claude Code 本地配置
+.claude/
