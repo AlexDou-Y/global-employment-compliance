@@ -2,7 +2,7 @@
 
 # Global Employment Compliance
 
-[![Version](https://img.shields.io/badge/version-16.0-blue.svg)]()
+[![Version](https://img.shields.io/badge/version-1.0-blue.svg)]()
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Claude Code](https://img.shields.io/badge/Claude%20Code-Skill-orange.svg)](https://docs.claude.com/en/docs/claude-code)
 [![Language](https://img.shields.io/badge/lang-简体中文-red.svg)](README.md)

@@ -1,7 +1,7 @@
 ---
 name: global_employment_compliance
 description: "全球人力合规与运营专家 - 生成海外用工合规手册、查询劳动法细节、解答合规实务问题"
-version: "16.0-persistent"
+version: "1.0"
 ---
 
 # Global Employment Compliance - 全球人力合规与运营专家
