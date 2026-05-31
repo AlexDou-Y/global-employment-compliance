@@ -13,7 +13,7 @@ This Skill encapsulates global employment compliance research as a reusable work
 
 ## What It Does
 
-This Skill consolidates frontline experience in overseas HR management and labor-relations practice across multinational enterprises, integrating handbook-compilation methodology accumulated from China, Japan, Singapore, the UAE, and other jurisdictions. Through anti-hallucination mechanisms — **mandatory source citation, explicit uncertainty degradation, and three-stage quality cross-validation (Structure pass → Content pass → Practice pass)** — it constrains AI output for accuracy and traceability, helping enterprise HR teams generate jurisdiction-specific compliance handbooks quickly and reliably.
+This Skill consolidates frontline experience in overseas HR management and labor-relations practice across multinational enterprises, integrating handbook-compilation methodology accumulated from China, Japan, Singapore, the UAE, and other jurisdictions. Through anti-hallucination mechanisms — **mandatory source citation, explicit uncertainty degradation, and three-stage quality cross-validation (Structure pass → Content pass → Practice pass)** — it constrains AI output for accuracy and traceability, helping enterprise HR teams generate jurisdiction-specific compliance handbooks quickly and reliably. Based on internal testing, end-to-end generation of a full handbook from scratch takes approximately 50–60 minutes.
 
 Beyond full handbook generation (**Mode A**), the Skill also supports the following extended scenarios:
 
