@@ -9,25 +9,34 @@
 
 > Global HR Compliance & Operations Expert — A Claude Code Skill for generating country-specific employment compliance handbooks, querying local labor law details, and answering overseas HR practical questions.
 
-Target users: Multinational HR teams, expatriate project managers, global employment service providers, labor law consultants.
+This Skill encapsulates global employment compliance research as a reusable workflow: from scope confirmation and official-source retrieval, to authoritative-interpretation supplementation, per-chapter spec compliance, and three-stage quality validation. Every fact must be sourced; uncertainty is flagged explicitly. Output is suitable for direct use in enterprise internal management decisions.
 
----
+## What It Does
 
-## Core Features
+This Skill consolidates frontline experience in overseas HR management and labor-relations practice across multinational enterprises, integrating handbook-compilation methodology accumulated from China, Japan, Singapore, the UAE, and other jurisdictions. Through anti-hallucination mechanisms — **mandatory source citation, explicit uncertainty degradation, and three-stage quality cross-validation (Structure pass → Content pass → Practice pass)** — it constrains AI output for accuracy and traceability, helping enterprise HR teams generate jurisdiction-specific compliance handbooks quickly and reliably.
 
-- **Four-Mode Auto Dispatch**: Workflow scales to request complexity — simple queries get direct answers, complex tasks trigger the full 9-step process. No more "running a 9-step research workflow just to ask about minimum wage"
-- **Hard Anti-Hallucination Constraints**: Every fact must carry a source URL; conflicting sources are flagged with `⚠️ Conflicting interpretations — consult local counsel` rather than fabricating certainty; if search tools fail, the skill explicitly degrades to "based on model knowledge, requires human verification" instead of silently relying on memory
-- **14-Chapter Standard Structure**: Covers the full employee lifecycle — preface, country overview, recruitment, compensation, income tax, social security, contracts, leave, unions & employee handbook, data compliance, labor disputes, forex, risk warnings, resources
-- **Three-Layer Content Model**: Rules layer (legal provisions) + Practice layer (how companies execute) + Risk layer (common issues & prevention)
-- **Persistent Research**: Research content is written to disk in real time, avoiding auto-compact context loss. The skill explicitly names "outputting from memory" as failure mode #1
-- **Three-Stage Quality Validation**: Structure pass (numbering, headings) → Content pass (gaps, tables, links) → Practice pass (numbers, steps, executability), each pass run independently
-- **Incremental Update Support**: Update specific chapters individually without regenerating the entire handbook
+Beyond full handbook generation (**Mode A**), the Skill also supports the following extended scenarios:
 
----
+- **Quick Lookup (Mode B)**: For point-fact questions — minimum wage, overtime rates, probation period, social-security ratios, severance — it performs targeted retrieval against official sources and returns a concise answer with source links and effective dates;
+- **Practice Q&A (Mode C)**: For scenario-based operational questions — how to terminate compliantly in Germany, how to assign expatriates to Singapore, how to execute large-scale layoffs in France — it returns an actionable plan structured as "Compliance steps + Risk points + Required documents";
+- **Incremental Update (Mode D)**: For regulatory changes or partial revisions, it executes chapter-level diff updates against existing handbooks without regenerating the full document.
+
+Output is consistently organized around "what enterprises do, when, by whom, and at what risk", covering recruitment access, work permits, visas/residence, compensation, personal income tax, social security and provident fund, employment contracts, termination and layoffs, leave, unions and employee handbook, data compliance, labor disputes, and forex/cross-border payments. It clearly distinguishes five rule tiers — **legal mandate / official enforcement practice / market convention / company discretion / requires professional review** — and addresses the differing rules applicable to local versus foreign employees separately, never blending them.
+
+## Applicable Scenarios
+
+Suitable for the following needs:
+
+- Generating/drafting a complete employment compliance handbook for a country or region;
+- Querying specific labor-law details (minimum wage, overtime, probation, severance, social-security ratios, etc.);
+- Answering scenario-based overseas HR practice questions (compliant termination in Germany, expatriate assignments, large-scale layoffs in France);
+- Reviewing, supplementing, or updating an existing handbook based on regulatory change.
+
+Target users: multinational HR teams, expatriate project managers, global employment service providers, labor law consultants.
 
 ## Operating Modes (Mode Dispatch)
 
-The skill auto-detects the right mode for your request — **you don't pick manually**:
+The Skill auto-detects the right mode for your request — **you don't pick manually**:
 
 | Mode | Trigger | Workflow Depth | Output |
 |:-----|:--------|:---------------|:-------|
@@ -38,14 +47,13 @@ The skill auto-detects the right mode for your request — **you don't pick manu
 
 > Modes B/C don't require file creation, but **still enforce source citation, uncertainty flagging, and professional-review prompts**.
 
----
-
 ## Installation
 
 ### Prerequisites
 
-- [Claude Code](https://docs.claude.com/en/docs/claude-code) installed
-- System: Windows / macOS / Linux
+- [Claude Code](https://docs.claude.com/en/docs/claude-code) or another Agent-Skills-compatible AI assistant installed.
+- Git installed if cloning.
+- Supported systems: Windows, macOS, Linux.
 
 ### Method 1: Clone to skills directory
 
@@ -53,76 +61,108 @@ The skill auto-detects the right mode for your request — **you don't pick manu
 # Linux / macOS
 git clone https://github.com/AlexDou-Y/global-hr-compliance-playbook.git \
   ~/.claude/skills/global-hr-compliance-playbook
+```
 
-# Windows (Git Bash / PowerShell)
-git clone https://github.com/AlexDou-Y/global-hr-compliance-playbook.git \
-  "$HOME/.claude/skills/global-hr-compliance-playbook"
+```powershell
+# Windows PowerShell
+git clone https://github.com/AlexDou-Y/global-hr-compliance-playbook.git `
+  "$HOME\.claude\skills\global-hr-compliance-playbook"
 ```
 
 ### Method 2: Manual download
 
-1. Download this repository as ZIP and extract
-2. Copy the entire `global-hr-compliance-playbook/` directory to:
-   - Linux / macOS: `~/.claude/skills/`
-   - Windows: `%USERPROFILE%\.claude\skills\`
+1. Download this repository as ZIP and extract.
+2. Copy the entire `global-hr-compliance-playbook/` directory to the corresponding skills directory:
+
+| AI Assistant | Linux / macOS | Windows |
+|:---|:---|:---|
+| Claude Code | `~/.claude/skills/` | `%USERPROFILE%\.claude\skills\` |
 
 ### Verify Installation
 
-Launch Claude Code, type `/skills` to view available skills list, you should see `global-hr-compliance-playbook`.
-
----
+After restarting or refreshing Claude Code, type `/skills` and confirm `global-hr-compliance-playbook` appears in the list.
 
 ## Usage
 
-Just describe your need in natural language — the skill picks the right mode automatically.
+Describe your need in natural language — the Skill picks the right mode automatically:
 
-### Mode A: Generate Complete Compliance Handbook
-
-```
-Generate a Singapore employment compliance handbook for me
-Make a South Korea employment compliance handbook
-```
-
-**Output**:
-- File: `新加坡用工合规手册_YYYYMMDD_V1.0.md` (Chinese filename, current default)
-- Location: same directory as the skill itself (relative path, so the skill can be renamed/moved)
-- Format: Markdown (compatible with Lark, Notion, Confluence), with tables, diagrams, legal links
-- Current version outputs Chinese handbooks; multilingual output is on the [roadmap](#roadmap)
-
-### Mode B: Quick Labor Law Queries
-
-```
-What is the minimum wage in South Korea?
-What are the probation period regulations in UAE DIFC?
-How is overtime pay calculated in California, USA?
+```text
+Use global-hr-compliance-playbook. Please generate a Singapore employment
+compliance handbook. Cover the differences between local and foreign employees;
+all numbers (minimum wage, social-security ratios, overtime rates) must carry
+official source citations. If no official source can be retrieved, use the
+degradation prompt and add it to the "needs human verification" list.
 ```
 
-→ Concise answer + official source links, no file created.
+To improve output quality, also provide:
 
-### Mode C: Compliance Practice Consultation
+- Country/region, including any special jurisdictions (e.g., UAE DIFC, California);
+- Employee type (local, foreign, expatriate);
+- Statutory employer and payroll entity;
+- Existing internal policies, EOR agreements, or local-counsel input (if any);
+- Issues of particular focus (termination flow, foreign work permits, cross-border data).
 
+## Service Stance
+
+This Skill serves enterprise internal management decisions and policy implementation.
+
+It focuses on:
+
+- The enterprise's compliance exposure and statutory obligations;
+- Local mandatory labor rules, statutory minimum entitlements, and official enforcement positions;
+- Cost and process impact across compensation, personal income tax, social security, and visas/work permits;
+- Differences in applicable rules between foreign and local employees;
+- High-risk, penalty-bearing, or contested matters.
+
+It **does not provide final legal advice**. All high-risk, contested, or fact-specific matters are explicitly flagged for review by local counsel/tax/immigration advisors. Where uncertainty remains, the Skill uses degradation prompts rather than fabricating certainty.
+
+## Workflow
+
+```mermaid
+flowchart TD
+    A[Mode detection A/B/C/D] --> B[Scope confirmation + create draft file]
+    B --> C[Broad information collection → real-time write to draft]
+    C --> D[Information distribution → assign by chapter, mark gaps]
+    D --> E[Per-module deep research → real-time draft update]
+    E --> F[Pre-output spec compliance check]
+    F --> G[Batch output handbook to conversation]
+    G --> H[Mandatory write to final file]
+    H --> I[Three-stage quality validation]
+    I --> J[Closeout]
 ```
-We need to terminate an employee in Germany, what should we pay attention to?
-What procedures are required for foreign employees to work in Japan?
-How to conduct large-scale layoffs compliantly in France?
-```
 
-→ "Steps + Risks + Required documents" practical answer.
+1. **Mode detection**  
+   Routes the request to A/B/C/D based on its characteristics, avoiding heavyweight workflow for simple queries.
 
-### Mode D: Incremental Updates to Existing Handbooks
+2. **Scope confirmation + create draft file**  
+   Confirm jurisdiction and chapter scope; immediately create `[country]_draft.md` in the skill's own directory as the single persistent carrier for the research process.
 
-```
-Update the minimum wage section of the South Korea handbook to 2026 latest data
-Based on current regulatory changes, add a remote work policy section to the Dubai handbook
-```
+3. **Broad information collection → real-time write to draft**  
+   Cast a wide net across official regulations and authoritative interpretations; each topic is written to the draft via the Edit tool the moment it's collected, never accumulated in conversation context.
 
----
+4. **Information distribution**  
+   Reorganize draft content by 14 chapters; mark gaps in each chapter.
 
-## Output Example
+5. **Per-module deep research**  
+   Read the corresponding spec file (on demand, not pre-loaded), identify gaps against requirements, perform targeted supplementary searches, write to the draft, and mark each completed chapter ✅.
 
-Full handbooks follow a unified 14-chapter structure:
+6. **Pre-output spec compliance check** (⚠️ Mandatory — cannot be skipped)  
+   Verify each chapter against its spec for format, tables, mandatory questions, calculation examples, and risk warnings; missing items must be backfilled before formal output.
 
-```
+7. **Batch output handbook**  
+   Output to the conversation in batches of 2-3 chapters following the spec format.
+
+8. **Mandatory write to final file**  
+   Use the Edit tool to batch-append into `[Country]_Employment_Compliance_Handbook_YYYYMMDD_Vx.x.md`, saved in the skill's own directory (relative path); read the file tail to verify completeness after writing.
+
+9. **Three-stage quality validation**  
+   Structure pass (numbering, headings, chapter completeness) → Content pass (gaps, tables, links) → Practice pass (numbers, steps, executability), each pass run independently.
+
+## Handbook Structure
+
+The full handbook follows a unified 14-chapter structure:
+
+```text
 Chapter 1   Preface (Scope, Version Notes)
 Chapter 2   Country/Region Overview
 Chapter 3   Recruitment
@@ -139,61 +179,56 @@ Chapter 13  Risk Warnings
 Chapter 14  Resources (links, templates, toolkits)
 ```
 
-Each provision follows the "Rules → Practice → Risk" three-layer structure, with legal source links attached.
+Each provision is structured in three layers: **Rules → Practice → Risk**:
 
----
+- **Rules layer**: original legal text, statutory thresholds, official enforcement positions, with official source links;
+- **Practice layer**: how the enterprise executes — required documents, responsible parties, operational steps;
+- **Risk layer**: common pitfalls, consequences of non-compliance, prevention recommendations.
+
+Every paragraph should contain at least one of: a specific number (amount, ratio, days, deadline), a specific operational step, a specific legal-clause citation, or a specific risk scenario.
+
+## Source Discipline
+
+Every fact must carry a source.
+
+Source priority:
+
+1. Government websites, official legal text, legal databases, official gazettes;
+2. Official guidance from labor ministries, immigration, tax authorities, social-security agencies, regulators, courts, or labor-arbitration bodies;
+3. Government FAQs, employer guides, wage orders, leave-entitlement pages, visa/work-permit pages;
+4. Authoritative interpretations from top-tier law firms, Big Four accounting firms, and major consulting houses;
+5. Professional media (e.g., Lexology), academic resources, industry reports — supporting only;
+6. Model knowledge as last-resort fallback only.
+
+**Banned**: anonymous wikis, pure marketing content, personal blogs, AI-generated content.
+
+When no official source can be retrieved, the output must contain:
+
+```text
+⚠️ No official source retrieved — based on model knowledge, requires human verification.
+```
+
+Conflict handling: latest in-effect rule wins; official sources override non-official; among multiple official sources, the directly responsible authority wins; if still unresolved, flag with `⚠️ Conflicting interpretations — consult local counsel`.
 
 ## Anti-Hallucination Mechanism
 
-Compliance handbooks have asymmetric error costs (one wrong severance rule can trigger litigation), so this skill treats anti-hallucination as a **hard constraint**, not a guideline:
+Compliance handbooks have asymmetric error costs (one wrong severance rule can trigger litigation), so this Skill treats anti-hallucination as a **hard constraint**, not a guideline:
 
 | Mechanism | Implementation |
 |:----------|:---------------|
-| **Source priority** | Government sites / official legal text > top-tier law firms / Big Four > professional media; explicitly banned: anonymous wikis, personal blogs, AI-generated content |
+| **Source priority** | See "Source Discipline" above; anonymous wikis, personal blogs, and AI-generated content are explicitly banned |
 | **Mandatory citations** | Every extracted fact must carry URL + retrieval timestamp; output principle #9: "no fabrication permitted" |
 | **Explicit uncertainty** | Conflicting sources → `⚠️ Conflicting interpretations`; high-risk matters → flag for local counsel / tax / immigration review |
 | **Degrade, don't go silent** | If tools fail: "⚠️ No official source retrieved — based on model knowledge, requires human verification". Silently using memory is forbidden |
-| **No "from memory" output** | The skill explicitly states "outputting from memory is failure mode #1"; spec must be re-read before drafting each chapter |
+| **No "from memory" output** | The Skill explicitly states "outputting from memory is failure mode #1"; spec must be re-read before drafting each chapter |
 | **Persistent on disk** | Research is written to a draft file in real time, so auto-compact can't force you to reconstruct from impressions |
 | **Rule-tier separation** | Legal mandate / official enforcement practice / market convention / company discretion / requires-professional-review — prevents "common practice" being dressed up as "the law" |
 
 > Note: these are process constraints, not technical interception. The model can still err, so **a licensed local attorney must review before formal use** (see [Disclaimer](#disclaimer)).
 
----
-
-## How It Works (Mode A Full Flow)
-
-```
-User Request
-   ↓
-[Mode Detection]  ── B/C/D ──→ Simplified flow
-   ↓ A
-[1. Scope confirmation + create draft file]
-   ↓
-[2. Broad information collection → real-time write to draft]
-   ↓
-[3. Information distribution → assign by chapter, mark gaps]
-   ↓
-[4. Per-module deep research → real-time draft update, check against spec]
-   ↓
-[5. Pre-output spec compliance check]  ⚠️ Mandatory — cannot be skipped
-   ↓
-[6. Batch output handbook to conversation]
-   ↓
-[7. Mandatory write to final file (Edit batch append)]
-   ↓
-[8. Three-stage quality validation]  Structure → Content → Practice
-   ↓
-[9. Closeout]  Targeted re-search, finalize file
-```
-
-See [ARCHITECTURE.md](ARCHITECTURE.md) for details.
-
----
-
 ## Directory Structure
 
-```
+```text
 global-hr-compliance-playbook/
 ├── skill.md                    # Main entry (Claude loads this file)
 ├── README.md                   # This document (English)
@@ -203,68 +238,90 @@ global-hr-compliance-playbook/
 ├── LICENSE                     # MIT License
 ├── 1_core/                     # Role, capabilities, output principles
 ├── 2_tools/                    # Tool configuration (Web Search strategy)
-├── 3_workflow/                 # Workflow (research process, quality validation, incremental update — 13 sub-flows)
+├── 3_workflow/                 # Workflow (research, quality validation, incremental update — 13 sub-flows)
 ├── 4_output/                   # Output specifications (format templates, terminology, chapter scale)
 ├── 5_spec/                     # Chapter specifications (14 chapters + mandatory questions + naming)
 └── 6_meta/                     # Metadata
 ```
 
----
-
 ## Supported Countries/Regions
 
-Theoretically supports any country/region, tested and verified:
+Theoretically supports any country/region; tested and verified:
 
-- **East Asia**: Japan, South Korea, Hong Kong (China)
-- **Southeast Asia**: Singapore, Malaysia, Indonesia, Vietnam, Thailand
-- **Middle East**: UAE (including DIFC), Saudi Arabia
-- **Europe & Americas**: USA (Federal & California), UK, Germany, France
+- **East Asia**: Japan, South Korea, Hong Kong (China);
+- **Southeast Asia**: Singapore, Malaysia, Indonesia, Vietnam, Thailand;
+- **Middle East**: UAE (incl. DIFC), Saudi Arabia;
+- **Europe & Americas**: USA (Federal & California), UK, Germany, France.
 
-> Note: For regions with rapidly changing regulations (e.g., EU), manual review of latest legislative updates is recommended after handbook generation.
+> Note: For regions where regulations change rapidly (e.g., the EU), manually verify the latest legislative status after handbook generation.
 
----
+## Example Prompts
 
-## Disclaimer
+**Mode A — Full handbook generation**:
 
-Compliance handbooks generated by this skill are **for reference only** and **do not constitute legal advice**. Labor laws vary greatly across countries and change frequently. Before formal application:
+```text
+Use global-hr-compliance-playbook. Generate a Singapore employment compliance
+handbook. Focus on the differences between work pass categories (EP / S Pass / WP)
+and their application processes. All minimum-wage, CPF ratios, and tax rates
+must cite official MOM/IRAS/CPF Board sources.
+```
 
-1. Have local licensed attorneys or professional consulting firms review
-2. Monitor regulatory updates (validity periods noted in handbooks)
-3. Adjust execution details based on company-specific circumstances
+**Mode B — Quick lookup**:
 
-Authors and contributors assume no responsibility for any legal or business consequences arising from use of this tool.
+```text
+What is South Korea's 2026 minimum wage? Cite the official source and effective date.
+```
 
----
+**Mode C — Practice consultation**:
+
+```text
+We need to terminate an employee in Germany who has worked 8 years (no-fault
+termination). Please describe the compliance steps, required documents,
+potential risks, and the calculation basis for severance.
+```
+
+**Mode D — Incremental update**:
+
+```text
+Based on UAE Federal Decree-Law No. 9 of 2024 (effective January 2026),
+update the "Annual Leave" and "Sick Leave" sections of our existing UAE
+handbook and flag the changes.
+```
 
 ## Roadmap
 
 - [x] English README (International Edition)
-- [ ] Multi-language handbook output support (English / 日本語 / 한국어)
+- [ ] Multi-language handbook output (English / 日本語 / 한국어)
 - [ ] Integration with Claude Code Plugin Marketplace
 - [ ] Chapter template visual preview
-
----
 
 ## Contributing
 
 Issues and Pull Requests are welcome:
 
-- **Report Issues**: Regulatory errors, template defects, workflow improvement suggestions
-- **Add Countries**: Contribute tested country handbooks as reference samples
-- **Improve Prompts**: Optimize research stage search strategies, quality validation checklists
+- **Report Issues**: regulatory errors, template defects, workflow improvement suggestions;
+- **Add Countries**: contribute tested country handbooks as reference samples;
+- **Improve Prompts**: optimize search strategies and quality-validation checklists.
 
 Please read [CHANGELOG.md](CHANGELOG.md) before submitting PRs to understand version evolution.
 
----
+## Disclaimer
+
+Compliance handbooks generated by this Skill are **for reference only** and **do not constitute legal advice**. Labor laws vary widely across countries and change frequently. Before formal application:
+
+1. Have local licensed attorneys or professional consulting firms review;
+2. Monitor regulatory updates (validity periods are noted in handbooks);
+3. Adjust execution details based on company-specific circumstances.
+
+Authors and contributors assume no responsibility for any legal or business consequences arising from use of this tool.
 
 ## License
 
 [MIT](LICENSE) © 2026
-
----
 
 ## Related Resources
 
 - [Claude Code Official Documentation](https://docs.claude.com/en/docs/claude-code)
 - [Anthropic Skills Repository](https://github.com/anthropics/skills)
 - [Skill Development Guide](https://docs.claude.com/en/docs/claude-code/skills)
+
