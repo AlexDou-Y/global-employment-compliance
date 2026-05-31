@@ -1,6 +1,6 @@
 [English](README.md) | [中文](README.zh-CN.md)
 
-# Global Employment Compliance
+# Global HR Compliance Playbook
 
 [![Version](https://img.shields.io/badge/version-1.0-blue.svg)]()
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
@@ -35,24 +35,24 @@ Target users: Multinational HR teams, expatriate project managers, global employ
 
 ```bash
 # Linux / macOS
-git clone https://github.com/AlexDou-Y/global-employment-compliance.git \
-  ~/.claude/skills/global-employment-compliance
+git clone https://github.com/AlexDou-Y/global-hr-compliance-playbook.git \
+  ~/.claude/skills/global-hr-compliance-playbook
 
 # Windows (Git Bash / PowerShell)
-git clone https://github.com/AlexDou-Y/global-employment-compliance.git \
-  "$HOME/.claude/skills/global-employment-compliance"
+git clone https://github.com/AlexDou-Y/global-hr-compliance-playbook.git \
+  "$HOME/.claude/skills/global-hr-compliance-playbook"
 ```
 
 ### Method 2: Manual download
 
 1. Download this repository as ZIP and extract
-2. Copy the entire `global-employment-compliance/` directory to:
+2. Copy the entire `global-hr-compliance-playbook/` directory to:
    - Linux / macOS: `~/.claude/skills/`
    - Windows: `%USERPROFILE%\.claude\skills\`
 
 ### Verify Installation
 
-Launch Claude Code, type `/skills` to view available skills list, you should see `global-employment-compliance`.
+Launch Claude Code, type `/skills` to view available skills list, you should see `global-hr-compliance-playbook`.
 
 ---
 
@@ -69,12 +69,12 @@ Generate a Singapore employment compliance handbook for me
 Or explicitly invoke:
 
 ```
-/global-employment-compliance Generate South Korea employment compliance handbook
+/global-hr-compliance-playbook Generate South Korea employment compliance handbook
 ```
 
 **Output**:
 - File: `Singapore_Employment_Compliance_Handbook_YYYYMMDD_V1.0.md`
-- Location: `~/.claude/skills/global-employment-compliance/`
+- Location: `~/.claude/skills/global-hr-compliance-playbook/`
 - Format: Markdown (compatible with Lark, Notion, Confluence), with tables, diagrams, legal links
 
 ### Scenario 2: Quick Labor Law Queries
@@ -130,7 +130,7 @@ Each provision follows the "Rules → Practice → Risk" three-layer structure, 
 ## Directory Structure
 
 ```
-global-employment-compliance/
+global-hr-compliance-playbook/
 ├── skill.md                    # Main entry (Claude loads this file)
 ├── README.md                   # This document (English)
 ├── README.zh-CN.md             # Chinese version

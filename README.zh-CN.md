@@ -1,6 +1,6 @@
 [English](README.md) | [中文](README.zh-CN.md)
 
-# Global Employment Compliance
+# Global HR Compliance Playbook
 
 [![Version](https://img.shields.io/badge/version-1.0-blue.svg)]()
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
@@ -35,24 +35,24 @@
 
 ```bash
 # Linux / macOS
-git clone https://github.com/<your-username>/global-employment-compliance.git \
-  ~/.claude/skills/global-employment-compliance
+git clone https://github.com/<your-username>/global-hr-compliance-playbook.git \
+  ~/.claude/skills/global-hr-compliance-playbook
 
 # Windows (Git Bash / PowerShell)
-git clone https://github.com/<your-username>/global-employment-compliance.git \
-  "$HOME/.claude/skills/global-employment-compliance"
+git clone https://github.com/<your-username>/global-hr-compliance-playbook.git \
+  "$HOME/.claude/skills/global-hr-compliance-playbook"
 ```
 
 ### 方式 2：手动下载
 
 1. 下载本仓库 ZIP 包并解压
-2. 将 `global-employment-compliance/` 整个目录复制到：
+2. 将 `global-hr-compliance-playbook/` 整个目录复制到：
    - Linux / macOS: `~/.claude/skills/`
    - Windows: `%USERPROFILE%\.claude\skills\`
 
 ### 验证安装
 
-启动 Claude Code，输入 `/skills` 查看可用 skill 列表，应能看到 `global-employment-compliance`。
+启动 Claude Code，输入 `/skills` 查看可用 skill 列表，应能看到 `global-hr-compliance-playbook`。
 
 ---
 
@@ -69,12 +69,12 @@ git clone https://github.com/<your-username>/global-employment-compliance.git \
 或显式调用：
 
 ```
-/global-employment-compliance 生成韩国用工合规手册
+/global-hr-compliance-playbook 生成韩国用工合规手册
 ```
 
 **输出**：
 - 文件：`新加坡用工合规手册_YYYYMMDD_V1.0.md`
-- 位置：`~/.claude/skills/global-employment-compliance/`
+- 位置：`~/.claude/skills/global-hr-compliance-playbook/`
 - 格式：Markdown（兼容飞书、Notion、Confluence），含表格、图例、法律链接
 
 ### 场景 2：快速查询劳动法
@@ -130,7 +130,7 @@ git clone https://github.com/<your-username>/global-employment-compliance.git \
 ## 目录结构
 
 ```
-global-employment-compliance/
+global-hr-compliance-playbook/
 ├── skill.md                    # 主入口（Claude 加载的入口文件）
 ├── README.md                   # 本文档
 ├── ARCHITECTURE.md             # 架构说明

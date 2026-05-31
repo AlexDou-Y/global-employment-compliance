@@ -75,7 +75,7 @@
 
 ⚠️ **强制要求：每完成一个模块的搜索，立即用 Edit 工具将结果追加到草稿文件，不得积压。**
 
-草稿文件路径：`~/.claude/skills/global-employment-compliance/[国家]_draft.md`
+草稿文件路径：本 skill 同目录下的 `[国家]_draft.md`（即与 SKILL.md 同级的相对路径，不要写死绝对路径，便于 skill 重命名或迁移）
 
 每个模块写入格式：
 

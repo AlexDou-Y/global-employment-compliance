@@ -19,8 +19,8 @@
 **全部章节输出到对话后，必须立即执行以下步骤，不得跳过：**
 
 1. 创建最终文件（如不存在）：
-   - 路径：`~/.claude/skills/global-employment-compliance/[国家名称]用工合规手册_YYYYMMDD_Vx.x.md`
-   - 用 Write 工具写入前50行（文件头 + 第1章）
+   - 路径：本 skill 同目录下（与 SKILL.md 同级）的 `[国家名称]用工合规手册_YYYYMMDD_Vx.x.md`
+   - 用 Write 工具写入前 50 行（文件头 + 第 1 章）
 
 2. 用 Edit 工具分批追加剩余章节，每批不超过50行
 

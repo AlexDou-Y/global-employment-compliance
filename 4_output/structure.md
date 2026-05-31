@@ -12,10 +12,6 @@
 
 #[[file:5_spec/content_layers_spec.md]]
 
-## 质量验收清单
-
-#[[file:5_spec/quality_checklist.md]]
-
 ## 必答问题表
 
 #[[file:5_spec/mandatory_questions.md]]
