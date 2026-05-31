@@ -15,12 +15,28 @@ Target users: Multinational HR teams, expatriate project managers, global employ
 
 ## Core Features
 
-- **14-Chapter Standard Structure**: Covers full employee lifecycle — preface, country overview, recruitment, compensation, income tax, social security, contracts, termination, leave, unions, data compliance, labor disputes, forex, risk warnings, resources
+- **Four-Mode Auto Dispatch**: Workflow scales to request complexity — simple queries get direct answers, complex tasks trigger the full 9-step process. No more "running a 9-step research workflow just to ask about minimum wage"
+- **Hard Anti-Hallucination Constraints**: Every fact must carry a source URL; conflicting sources are flagged with `⚠️ Conflicting interpretations — consult local counsel` rather than fabricating certainty; if search tools fail, the skill explicitly degrades to "based on model knowledge, requires human verification" instead of silently relying on memory
+- **14-Chapter Standard Structure**: Covers the full employee lifecycle — preface, country overview, recruitment, compensation, income tax, social security, contracts, leave, unions & employee handbook, data compliance, labor disputes, forex, risk warnings, resources
 - **Three-Layer Content Model**: Rules layer (legal provisions) + Practice layer (how companies execute) + Risk layer (common issues & prevention)
-- **Three-Stage Research Workflow**: Official regulations → Authoritative interpretations → Targeted supplementation, automated phased research
-- **27-Point Quality Checklist**: Mandatory pre-output validation ensuring complete coverage, accurate content, standardized format
-- **Persistent Research**: Research content written to disk in real-time, avoiding auto-compact context loss
+- **Persistent Research**: Research content is written to disk in real time, avoiding auto-compact context loss. The skill explicitly names "outputting from memory" as failure mode #1
+- **Three-Stage Quality Validation**: Structure pass (numbering, headings) → Content pass (gaps, tables, links) → Practice pass (numbers, steps, executability), each pass run independently
 - **Incremental Update Support**: Update specific chapters individually without regenerating the entire handbook
+
+---
+
+## Operating Modes (Mode Dispatch)
+
+The skill auto-detects the right mode for your request — **you don't pick manually**:
+
+| Mode | Trigger | Workflow Depth | Output |
+|:-----|:--------|:---------------|:-------|
+| **A. Full Handbook** | "Generate a [country] employment compliance handbook" | Full 9-step workflow | 14-chapter handbook `.md` file |
+| **B. Quick Lookup** | "What's the minimum wage in X" | Targeted search → concise answer | Direct answer + source links, no file |
+| **C. Practice Q&A** | "How do we terminate compliantly in Germany" | Simplified multi-step | "Steps + Risks + Documents" answer, no file |
+| **D. Incremental Update** | "Update the minimum wage section of the Korea handbook" | Diff workflow | Updates relevant chapters |
+
+> Modes B/C don't require file creation, but **still enforce source citation, uncertainty flagging, and professional-review prompts**.
 
 ---
 
@@ -58,26 +74,22 @@ Launch Claude Code, type `/skills` to view available skills list, you should see
 
 ## Usage
 
-### Scenario 1: Generate Complete Compliance Handbook
+Just describe your need in natural language — the skill picks the right mode automatically.
 
-Simply describe your need in Claude Code:
+### Mode A: Generate Complete Compliance Handbook
 
 ```
 Generate a Singapore employment compliance handbook for me
-```
-
-Or explicitly invoke:
-
-```
-/global-hr-compliance-playbook Generate South Korea employment compliance handbook
+Make a South Korea employment compliance handbook
 ```
 
 **Output**:
-- File: `Singapore_Employment_Compliance_Handbook_YYYYMMDD_V1.0.md`
-- Location: `~/.claude/skills/global-hr-compliance-playbook/`
+- File: `新加坡用工合规手册_YYYYMMDD_V1.0.md` (Chinese filename, current default)
+- Location: same directory as the skill itself (relative path, so the skill can be renamed/moved)
 - Format: Markdown (compatible with Lark, Notion, Confluence), with tables, diagrams, legal links
+- Current version outputs Chinese handbooks; multilingual output is on the [roadmap](#roadmap)
 
-### Scenario 2: Quick Labor Law Queries
+### Mode B: Quick Labor Law Queries
 
 ```
 What is the minimum wage in South Korea?
@@ -85,7 +97,9 @@ What are the probation period regulations in UAE DIFC?
 How is overtime pay calculated in California, USA?
 ```
 
-### Scenario 3: Compliance Practice Consultation
+→ Concise answer + official source links, no file created.
+
+### Mode C: Compliance Practice Consultation
 
 ```
 We need to terminate an employee in Germany, what should we pay attention to?
@@ -93,7 +107,9 @@ What procedures are required for foreign employees to work in Japan?
 How to conduct large-scale layoffs compliantly in France?
 ```
 
-### Scenario 4: Incremental Updates to Existing Handbooks
+→ "Steps + Risks + Required documents" practical answer.
+
+### Mode D: Incremental Updates to Existing Handbooks
 
 ```
 Update the minimum wage section of the South Korea handbook to 2026 latest data
@@ -104,26 +120,74 @@ Based on current regulatory changes, add a remote work policy section to the Dub
 
 ## Output Example
 
-Generated handbooks follow a unified structure:
+Full handbooks follow a unified 14-chapter structure:
 
 ```
-Chapter 1  Preface (Scope, Version Notes)
-Chapter 2  Country/Region Overview
-Chapter 3  Recruitment & Onboarding
-Chapter 4  Compensation & Benefits
-Chapter 5  Personal Income Tax
-Chapter 6  Social Insurance & Provident Fund
-Chapter 7  Employment Contracts
-Chapter 8  Contract Termination & Compensation
-Chapter 9  Leave & Time Off
-Chapter 10 Unions & Employee Representatives
-Chapter 11 Data Protection & Compliance
-Chapter 12 Labor Disputes & Litigation
-Chapter 13 Foreign Exchange & Cross-Border Payments
-Chapter 14 Risk Warnings & Resource Summary
+Chapter 1   Preface (Scope, Version Notes)
+Chapter 2   Country/Region Overview
+Chapter 3   Recruitment
+Chapter 4   Compensation
+Chapter 5   Personal Income Tax
+Chapter 6   Social Insurance & Provident Fund
+Chapter 7   Employment Contract (incl. termination & severance)
+Chapter 8   Leave & Time Off
+Chapter 9   Unions & Employee Handbook
+Chapter 10  Data Compliance
+Chapter 11  Labor Disputes
+Chapter 12  Foreign Exchange & Cross-Border Payments
+Chapter 13  Risk Warnings
+Chapter 14  Resources (links, templates, toolkits)
 ```
 
 Each provision follows the "Rules → Practice → Risk" three-layer structure, with legal source links attached.
+
+---
+
+## Anti-Hallucination Mechanism
+
+Compliance handbooks have asymmetric error costs (one wrong severance rule can trigger litigation), so this skill treats anti-hallucination as a **hard constraint**, not a guideline:
+
+| Mechanism | Implementation |
+|:----------|:---------------|
+| **Source priority** | Government sites / official legal text > top-tier law firms / Big Four > professional media; explicitly banned: anonymous wikis, personal blogs, AI-generated content |
+| **Mandatory citations** | Every extracted fact must carry URL + retrieval timestamp; output principle #9: "no fabrication permitted" |
+| **Explicit uncertainty** | Conflicting sources → `⚠️ Conflicting interpretations`; high-risk matters → flag for local counsel / tax / immigration review |
+| **Degrade, don't go silent** | If tools fail: "⚠️ No official source retrieved — based on model knowledge, requires human verification". Silently using memory is forbidden |
+| **No "from memory" output** | The skill explicitly states "outputting from memory is failure mode #1"; spec must be re-read before drafting each chapter |
+| **Persistent on disk** | Research is written to a draft file in real time, so auto-compact can't force you to reconstruct from impressions |
+| **Rule-tier separation** | Legal mandate / official enforcement practice / market convention / company discretion / requires-professional-review — prevents "common practice" being dressed up as "the law" |
+
+> Note: these are process constraints, not technical interception. The model can still err, so **a licensed local attorney must review before formal use** (see [Disclaimer](#disclaimer)).
+
+---
+
+## How It Works (Mode A Full Flow)
+
+```
+User Request
+   ↓
+[Mode Detection]  ── B/C/D ──→ Simplified flow
+   ↓ A
+[1. Scope confirmation + create draft file]
+   ↓
+[2. Broad information collection → real-time write to draft]
+   ↓
+[3. Information distribution → assign by chapter, mark gaps]
+   ↓
+[4. Per-module deep research → real-time draft update, check against spec]
+   ↓
+[5. Pre-output spec compliance check]  ⚠️ Mandatory — cannot be skipped
+   ↓
+[6. Batch output handbook to conversation]
+   ↓
+[7. Mandatory write to final file (Edit batch append)]
+   ↓
+[8. Three-stage quality validation]  Structure → Content → Practice
+   ↓
+[9. Closeout]  Targeted re-search, finalize file
+```
+
+See [ARCHITECTURE.md](ARCHITECTURE.md) for details.
 
 ---
 
@@ -137,11 +201,11 @@ global-hr-compliance-playbook/
 ├── ARCHITECTURE.md             # Architecture documentation
 ├── CHANGELOG.md                # Version changelog
 ├── LICENSE                     # MIT License
-├── 1_core/                     # Core rules (compliance expert positioning, principles)
-├── 2_tools/                    # Tool configuration (Web Search strategy, etc.)
-├── 3_workflow/                 # Workflows (research process, quality validation, incremental updates)
-├── 4_output/                   # Output specifications (format templates, terminology standards, chapter scale)
-├── 5_spec/                     # Chapter specifications (14 chapters detailed requirements)
+├── 1_core/                     # Role, capabilities, output principles
+├── 2_tools/                    # Tool configuration (Web Search strategy)
+├── 3_workflow/                 # Workflow (research process, quality validation, incremental update — 13 sub-flows)
+├── 4_output/                   # Output specifications (format templates, terminology, chapter scale)
+├── 5_spec/                     # Chapter specifications (14 chapters + mandatory questions + naming)
 └── 6_meta/                     # Metadata
 ```
 
@@ -157,30 +221,6 @@ Theoretically supports any country/region, tested and verified:
 - **Europe & Americas**: USA (Federal & California), UK, Germany, France
 
 > Note: For regions with rapidly changing regulations (e.g., EU), manual review of latest legislative updates is recommended after handbook generation.
-
----
-
-## How It Works
-
-```
-User Request
-   ↓
-[Scope Confirmation] → Create draft file
-   ↓
-[Stage 1] Official regulations collection → Real-time write to draft
-   ↓
-[Stage 2] Authoritative interpretation supplementation → Real-time write to draft
-   ↓
-[Stage 3] Information distribution → Assign by chapter
-   ↓
-[Quality Validation] 27-point checklist
-   ↓
-[Final Write] Batch Edit write to formal file
-   ↓
-[HRBP Perspective Review] Completeness + Practical executability
-```
-
-See [ARCHITECTURE.md](ARCHITECTURE.md) for details.
 
 ---
 
